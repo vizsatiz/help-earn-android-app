@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,11 @@ public class TaskListActivity extends AppCompatActivity {
         adapter.addFragment(new ProfileTab(), "TWO");
         adapter.addFragment(new HistoryTab(), "THREE");
         viewPager.setAdapter(adapter);
+    }
+
+    public void onAuthButtonClick(View v){
+        Button b = (Button)v;
+        ((Button) v).setText("Clicked");
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
