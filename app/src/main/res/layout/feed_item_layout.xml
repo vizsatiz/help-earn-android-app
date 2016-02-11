@@ -79,6 +79,59 @@
             android:background="@color/white"
             android:scaleType="fitXY"
             android:visibility="visible" />
-    </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_margin="6dp"
+            android:background="#c0c0c0"/>
 
+        <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent">
+            <TableRow
+                android:id="@+id/toolbar"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom= "-7dp">
+
+                <Button
+                    android:id="@+id/btn_places"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="-1dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:layout_marginRight="-4.2dp"
+                    android:layout_marginLeft="-4.2dp"
+                    android:textSize="10dp"
+                    android:drawableLeft="@drawable/ic_promote_task"
+                    android:text="swfed" />
+
+                <Button
+                    android:id="@+id/btn_events"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="-1dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:layout_marginRight="-4.2dp"
+                    android:layout_marginLeft="-4.2dp"
+                    android:textSize="10dp"
+                    android:drawableLeft="@drawable/ic_promote_task"
+                    android:text="efew" />
+
+                <Button
+                    android:id="@+id/btn_about"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="-1dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.2"
+                    android:layout_marginRight="-4dp"
+                    android:layout_marginLeft="-4.2dp"
+                    android:text="fedf"
+                    android:drawableLeft="@drawable/ic_promote_task"
+                    android:textSize="10dp" />
+
+            </TableRow>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

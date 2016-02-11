@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 /**
- * Created by KH1888 on 08-02-2016.
+ * Created by vizsatiz on 08-02-2016.
  */
 public class TaskListAdapter extends BaseAdapter{
 

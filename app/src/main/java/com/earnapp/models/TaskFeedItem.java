@@ -1,42 +1,22 @@
 package com.earnapp.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 /**
- * Created by vizsatiz on 08-02-2016.
+ * Created by vizsatiz on 11-02-2016.
  */
-public class TaskItem {
+public class TaskFeedItem {
 
     private String id;
     private String taskTitle;
     private String taskDescription;
-    private int reward;
+    private int amount;
     private String location;
     private int promotes;
     private User taskOwner;
 
     private String createdAt;
     private String updatedAt;
-    private String expiry;
-
-    private ArrayList<Bid> bids;
-
-    public ArrayList<Bid> getBids() {
-        return bids;
-    }
-
-    public void setBids(ArrayList<Bid> bids) {
-        this.bids = bids;
-    }
-
-    public String getExpiry() {
-        return expiry;
-    }
-
-    public void setExpiry(String expiry) {
-        this.expiry = expiry;
-    }
 
     public String getLocation() {
         return location;
@@ -102,11 +82,11 @@ public class TaskItem {
         this.taskTitle = taskTitle;
     }
 
-    public int getReward() {
-        return reward;
+    public int getAmount() {
+        return amount;
     }
 
-    public void setReward(int amount) {
-        this.reward = amount;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }

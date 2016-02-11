@@ -1,13 +1,11 @@
 package com.earnapp.helpbucks;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.io.UnsupportedEncodingException;
@@ -19,9 +17,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.earnapp.adapters.TaskListAdapter;
+import com.earnapp.constants.ApplicationConstants;
+import com.earnapp.models.Bid;
 import com.earnapp.models.TaskItem;
+import com.earnapp.models.User;
 import com.earnapp.volley.VolleyFeedController;
 
 import org.json.JSONArray;
@@ -50,15 +52,40 @@ public class TaskTabs extends Fragment {
     /**
      * Parsing json reponse and passing the data to feed view list adapter
      * */
-    private void parseJsonFeed(JSONObject response) {
+    private void parseJsonFeed(JSONArray response) {
         try {
-            JSONArray feedArray = response.getJSONArray("feed");
-
+            JSONArray feedArray = response;
             for (int i = 0; i < feedArray.length(); i++) {
                 JSONObject feedObj = (JSONObject) feedArray.get(i);
-
                 TaskItem item = new TaskItem();
-                item.setId(feedObj.getInt("id"));
+                item.setId(feedObj.getString(ApplicationConstants.ID));
+                item.setTaskTitle(feedObj.getString(ApplicationConstants.TITLE));
+                item.setTaskDescription(feedObj.getString(ApplicationConstants.DESCRIPTION));
+                item.setLocation(feedObj.getString(ApplicationConstants.LOCATION));
+                JSONObject userJson = feedObj.getJSONObject(ApplicationConstants.OWNER);
+                User taskCreator = new User(userJson.getString(ApplicationConstants.ID),userJson.getString(ApplicationConstants.NAME),
+                        userJson.getString(ApplicationConstants.USERNAME),userJson.getString(ApplicationConstants.FACEBOOK));
+                item.setTaskOwner(taskCreator);
+                item.setReward(feedObj.getInt(ApplicationConstants.REWARD));
+                item.setExpiry(feedObj.getString(ApplicationConstants.EXPIRY));
+                // Adding the bids for each task
+                item.setBids(new ArrayList<Bid>());
+                JSONArray bidsJsonList = feedObj.getJSONArray(ApplicationConstants.BIDS);
+                for (int j = 0; j < bidsJsonList.length(); j++) {
+                    JSONObject bidJson = bidsJsonList.getJSONObject(j);
+                    JSONObject bidderJson = bidJson.getJSONObject(ApplicationConstants.BIDDER);
+                    User bidderObj = new User(bidderJson.getString(ApplicationConstants.ID),bidderJson.getString(ApplicationConstants.NAME),
+                            bidderJson.getString(ApplicationConstants.USERNAME),bidderJson.getString(ApplicationConstants.FACEBOOK));
+                    Bid bidObj = new Bid(bidJson.getString(ApplicationConstants.ID),bidJson.getInt(ApplicationConstants.AMOUNT),bidderObj);
+                    item.getBids().add(bidObj);
+                }
+
+                item.setCreatedAt(feedObj.getString(ApplicationConstants.CREATED_AT));
+                item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
+                item.setPromotes(feedObj.getInt(ApplicationConstants.PROMOTES));
+
+
+
                 item.setName(feedObj.getString("name"));
 
                 // Image might be null sometimes
@@ -73,10 +100,8 @@ public class TaskTabs extends Fragment {
                 String feedUrl = feedObj.isNull("url") ? null : feedObj
                         .getString("url");
                 item.setUrl(feedUrl);
-
                 taskItems.add(item);
             }
-
             // notify data changes to list adapater
             listAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
@@ -105,7 +130,7 @@ public class TaskTabs extends Fragment {
             try {
                 String data = new String(entry.data, "UTF-8");
                 try {
-                    parseJsonFeed(new JSONObject(data));
+                    parseJsonFeed(new JSONArray(data));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -115,9 +140,9 @@ public class TaskTabs extends Fragment {
 
         } else {
             // making fresh volley request and getting json
-            JsonObjectRequest jsonReq = new JsonObjectRequest(Request.Method.GET,URL_FEED,(String) null, new Response.Listener<JSONObject>() {
+            JsonArrayRequest jsonReq = new JsonArrayRequest(Request.Method.GET,URL_FEED,(String) null, new Response.Listener<JSONArray>() {
                 @Override
-                public void onResponse(JSONObject response) {
+                public void onResponse(JSONArray response) {
                     VolleyLog.d(TAG, "Response: " + response.toString());
                     if (response != null) {
                         parseJsonFeed(response);
@@ -127,11 +152,8 @@ public class TaskTabs extends Fragment {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    System.out.print("rrr---->" + error.getMessage());
                 }
             });
-
-
             // Adding request to volley request queue
             VolleyFeedController.getInstance().addToRequestQueue(jsonReq);
         }

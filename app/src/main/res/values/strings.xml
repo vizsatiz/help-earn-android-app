@@ -4,10 +4,12 @@
     <string name="title_activity_task_list">TaskListActivity</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="TaskList">Tasks</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Bid">Bid</string>
+    <string name="Location">Location</string>
+    <string name="Comment">Comment</string>
 </resources>
