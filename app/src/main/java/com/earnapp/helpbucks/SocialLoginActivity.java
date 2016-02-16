@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.earnapp.adapters.WebServiceAuthAdapter;
+import com.earnapp.webservice.WebServiceAuthAdpt;
 import com.earnapp.webservice.WebServiceUserAdpt;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
@@ -109,14 +109,9 @@ public class SocialLoginActivity extends AppCompatActivity {
                 WebServiceUserAdpt userApdt = new WebServiceUserAdpt(this);
                 userApdt.checkForExistingUser(profile.getId());
             }else{
-                // authenticate and update user
-                //WebServiceAuthAdapter.getInstance().authenticate();
+                WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(this);
+                authAdpt.updateAndAuthenticateUser(profile.getId(),"password");
             }
-            //Intent intent = new Intent(context, TaskListActivity.class);
-            //startActivity(intent);
-            Log.d("login","ndeiwhio updateWithToken :"+AccessToken.getCurrentAccessToken().getToken());
-            Log.d("login","ndeiwhio updateWithToken :"+profile.getFirstName());
-            Log.d("login","ndeiwhio updateWithToken :"+profile.getId());
         }
         else {
             Log.d("login","Error profile is null");
