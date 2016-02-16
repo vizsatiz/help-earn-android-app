@@ -54,23 +54,23 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtStatusMsg"
+            android:id="@+id/txtTitle"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
             android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
 
         <TextView
-            android:id="@+id/txtUrl"
+            android:id="@+id/txtDescription"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:paddingBottom="10dp"
+            android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:textColorLink="@color/link" />
+            android:paddingTop="@dimen/feed_item_status_pad_top" />
 
         <com.earnapp.feeds.FeedImageView
             android:id="@+id/feedImage1"

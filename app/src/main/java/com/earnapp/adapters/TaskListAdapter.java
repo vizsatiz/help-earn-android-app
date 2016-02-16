@@ -20,6 +20,7 @@ import com.earnapp.helpbucks.R;
 import com.earnapp.models.TaskItem;
 import com.earnapp.volley.VolleyFeedController;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -67,52 +68,46 @@ public class TaskListAdapter extends BaseAdapter{
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView timestamp = (TextView) convertView
                 .findViewById(R.id.timestamp);
-        TextView statusMsg = (TextView) convertView
-                .findViewById(R.id.txtStatusMsg);
-        TextView url = (TextView) convertView.findViewById(R.id.txtUrl);
+        TextView title = (TextView) convertView
+                .findViewById(R.id.txtTitle);
+        TextView description = (TextView) convertView.findViewById(R.id.txtDescription);
         NetworkImageView profilePic = (NetworkImageView) convertView
                 .findViewById(R.id.profilePic);
         FeedImageView feedImageView = (FeedImageView) convertView
                 .findViewById(R.id.feedImage1);
-
         TaskItem item = feedItems.get(position);
-
-        name.setText(item.getName());
-
+        name.setText(item.getTaskOwner().getName());
         // Converting timestamp into x ago format
-        CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
-                Long.parseLong(item.getTimeStamp()),
+        CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(item.getCreatedAt().getTime(),
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         timestamp.setText(timeAgo);
 
-        // Chcek for empty status message
-        if (!TextUtils.isEmpty(item.getStatus())) {
-            statusMsg.setText(item.getStatus());
-            statusMsg.setVisibility(View.VISIBLE);
+        // Check for empty status message
+        if (!TextUtils.isEmpty(item.getTaskTitle())) {
+            title.setText(item.getTaskTitle());
+            title.setVisibility(View.VISIBLE);
         } else {
             // status is empty, remove from view
-            statusMsg.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
         }
 
-        // Checking for null feed url
-        if (item.getUrl() != null) {
-            url.setText(Html.fromHtml("<a href=\"" + item.getUrl() + "\">"
-                    + item.getUrl() + "</a> "));
-
-            // Making url clickable
-            url.setMovementMethod(LinkMovementMethod.getInstance());
-            url.setVisibility(View.VISIBLE);
+        // Check for empty status message
+        if (!TextUtils.isEmpty(item.getTaskDescription())) {
+            description.setText(item.getTaskDescription());
+            description.setVisibility(View.VISIBLE);
         } else {
-            // url is null, remove from the view
-            url.setVisibility(View.GONE);
+            // status is empty, remove from view
+            description.setVisibility(View.GONE);
         }
-
         // user profile pic
-        profilePic.setImageUrl(item.getProfilePic(), imageLoader);
+        profilePic.setImageUrl(item.getTaskOwner().getProfilePic(), imageLoader);
 
         // Feed image
-        if (item.getImge() != null) {
-            feedImageView.setImageUrl(item.getImge(), imageLoader);
+
+        // c = item.getImge()
+        String c = null;
+        if (c != null) {
+            feedImageView.setImageUrl(c, imageLoader);
             feedImageView.setVisibility(View.VISIBLE);
             feedImageView
                     .setResponseObserver(new FeedImageView.ResponseObserver() {

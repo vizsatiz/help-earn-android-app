@@ -5,10 +5,28 @@ package com.earnapp.constants;
  */
 public interface ApplicationConstants {
 
+    // Base URLs
+    public static final String FB_GRAPH_BASE_URL = "https://graph.facebook.com";
+    public static final String DB_BASE_URL = "http://192.168.56.101:3000";
+
+    // URL paths
+    //FB
+    public static final String FB_PROFILE_PIC_URL = "/me/picture";
+    //Backend
+    public static final String DB_CREATE_USER_URL = "/register/user";
+    public static final String DB_GET_TASK  = "/api/v1/task";
+    public static final String DB_AUTHENTICATE  = "/api/v1/task";
+
+
+    // URL params
+    public static final String ACCESS_TOKEN = "access_token";
+
     // General
     public static final String ID = "_id";
     public static final String CREATED_AT = "created_at";
     public static final String UPDATED_AT = "updated_at";
+
+    public static final String DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 
     // Task

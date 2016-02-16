@@ -9,21 +9,26 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.android.volley.Cache;
-import com.android.volley.Request;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.earnapp.adapters.TaskListAdapter;
 import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.models.Bid;
 import com.earnapp.models.TaskItem;
 import com.earnapp.models.User;
+import com.earnapp.volley.CustomJsonArrayRequest;
+import com.earnapp.volley.CustomRequest;
 import com.earnapp.volley.VolleyFeedController;
 
 import org.json.JSONArray;
@@ -36,7 +41,6 @@ public class TaskTabs extends Fragment {
     private ListView listView;
     private TaskListAdapter listAdapter;
     private List<TaskItem> taskItems;
-    private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
 
 
     public TaskTabs() {
@@ -52,10 +56,11 @@ public class TaskTabs extends Fragment {
     /**
      * Parsing json reponse and passing the data to feed view list adapter
      * */
-    private void parseJsonFeed(JSONArray response) {
+    private void parseJsonFeed(JSONArray response) throws ParseException{
         try {
             JSONArray feedArray = response;
             for (int i = 0; i < feedArray.length(); i++) {
+
                 JSONObject feedObj = (JSONObject) feedArray.get(i);
                 TaskItem item = new TaskItem();
                 item.setId(feedObj.getString(ApplicationConstants.ID));
@@ -84,23 +89,23 @@ public class TaskTabs extends Fragment {
                 item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
                 item.setPromotes(feedObj.getInt(ApplicationConstants.PROMOTES));
 
+                taskItems.add(item);
 
-
-                item.setName(feedObj.getString("name"));
+               // item.setName(feedObj.getString("name"));
 
                 // Image might be null sometimes
-                String image = feedObj.isNull("image") ? null : feedObj
-                        .getString("image");
-                item.setImge(image);
-                item.setStatus(feedObj.getString("status"));
-                item.setProfilePic(feedObj.getString("profilePic"));
-                item.setTimeStamp(feedObj.getString("timeStamp"));
+               // String image = feedObj.isNull("image") ? null : feedObj
+                //        .getString("image");
+                //item.setImge(image);
+                //item.setStatus(feedObj.getString("status"));
+                //item.setProfilePic(feedObj.getString("profilePic"));
+                //item.setTimeStamp(feedObj.getString("timeStamp"));
 
                 // url might be null sometimes
-                String feedUrl = feedObj.isNull("url") ? null : feedObj
-                        .getString("url");
-                item.setUrl(feedUrl);
-                taskItems.add(item);
+                //String feedUrl = feedObj.isNull("url") ? null : feedObj
+                  //      .getString("url");
+                //item.setUrl(feedUrl);
+                //taskItems.add(item);
             }
             // notify data changes to list adapater
             listAdapter.notifyDataSetChanged();
@@ -124,14 +129,14 @@ public class TaskTabs extends Fragment {
 
         // We first check for cached request
         Cache cache = VolleyFeedController.getInstance().getRequestQueue().getCache();
-        Cache.Entry entry = cache.get(URL_FEED);
+        Cache.Entry entry = cache.get(ApplicationConstants.DB_BASE_URL+ApplicationConstants.DB_GET_TASK);
         if (entry != null) {
             // fetch the data from cache
             try {
                 String data = new String(entry.data, "UTF-8");
                 try {
                     parseJsonFeed(new JSONArray(data));
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } catch (UnsupportedEncodingException e) {
@@ -139,13 +144,21 @@ public class TaskTabs extends Fragment {
             }
 
         } else {
+            Map<String,String> headers = new HashMap<>();
+            headers.put("Content-Type","application/json");
+            headers.put("x-access-token","application/json");
             // making fresh volley request and getting json
-            JsonArrayRequest jsonReq = new JsonArrayRequest(Request.Method.GET,URL_FEED,(String) null, new Response.Listener<JSONArray>() {
+            CustomJsonArrayRequest jsonReq = new CustomJsonArrayRequest(ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_TASK
+                    , headers, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     VolleyLog.d(TAG, "Response: " + response.toString());
                     if (response != null) {
-                        parseJsonFeed(response);
+                        try {
+                            parseJsonFeed(response);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }, new Response.ErrorListener() {

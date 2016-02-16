@@ -5,25 +5,27 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
+import com.earnapp.adapters.WebServiceAuthAdapter;
+import com.earnapp.webservice.WebServiceUserAdpt;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
 public class SocialLoginActivity extends AppCompatActivity {
 
-    CallbackManager callbackManager;
-    AccessTokenTracker accessTokenTracker;
+    private CallbackManager callbackManager;
+    private AccessTokenTracker mAccessTokenTracker;
+    private ProfileTracker mProfileTracker;
+
     final Context context = this;
 
     @Override
@@ -33,48 +35,91 @@ public class SocialLoginActivity extends AppCompatActivity {
         // Initializing FaceBook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
-        accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(
-                    AccessToken oldAccessToken,
-                    AccessToken currentAccessToken) {
-                updateWithToken(currentAccessToken);
 
+
+        this.mAccessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                Log.d("login","onCurrentAccessTokenChanged");
             }
         };
+        mAccessTokenTracker.startTracking();
+
+        if(Profile.getCurrentProfile() == null) {
+            mProfileTracker = new ProfileTracker() {
+                @Override
+                protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                    mProfileTracker.stopTracking();
+                    updateWithTokenAndProfile(profile2,false);
+                }
+            };
+            mProfileTracker.startTracking();
+        }else {
+            Profile profile = Profile.getCurrentProfile();
+            updateWithTokenAndProfile(profile,false);
+        }
+
+
+
         LoginManager.getInstance().registerCallback(callbackManager,
-            new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    Intent intent = new Intent(context, TaskListActivity.class);
-                    startActivity(intent);
-                }
+                new FacebookCallback<LoginResult>() {
+                    private ProfileTracker mProfileTracker;
+                    @Override
+                    public void onSuccess(final LoginResult loginResult) {
+                        if(Profile.getCurrentProfile() == null) {
+                            mProfileTracker = new ProfileTracker() {
+                                @Override
+                                protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
+                                    mProfileTracker.stopTracking();
+                                    Log.d("login", "login Success inside ");
+                                    updateWithTokenAndProfile(profile2,true);
+                                }
+                            };
+                            mProfileTracker.startTracking();
+                        }else {
+                            Profile profile = Profile.getCurrentProfile();
+                            Log.d("login", "login Success outside ");
+                            updateWithTokenAndProfile(profile,true);
+                        }
+                    }
 
-                @Override
-                public void onCancel() {
-                    // App code
-                }
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
 
-                @Override
-                public void onError(FacebookException exception) {
-                    // App code
-                }
-            });
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
         setContentView(R.layout.activity_social_login);
     }
 
     /**
      * This function checks wether the current token is l;
      *
-     * @param token
+     * @param profile
      */
-    private void updateWithToken(AccessToken token) {
-        if(token!=null){
-            Intent intent = new Intent(context, TaskListActivity.class);
-            startActivity(intent);
+    private void updateWithTokenAndProfile(Profile profile,boolean isFirstLogin) {
+        if(profile!= null){
+            // creating user and authenticating webservice
+            if(isFirstLogin){
+               // create user
+                WebServiceUserAdpt userApdt = new WebServiceUserAdpt(this);
+                userApdt.checkForExistingUser(profile.getId());
+            }else{
+                // authenticate and update user
+                //WebServiceAuthAdapter.getInstance().authenticate();
+            }
+            //Intent intent = new Intent(context, TaskListActivity.class);
+            //startActivity(intent);
+            Log.d("login","ndeiwhio updateWithToken :"+AccessToken.getCurrentAccessToken().getToken());
+            Log.d("login","ndeiwhio updateWithToken :"+profile.getFirstName());
+            Log.d("login","ndeiwhio updateWithToken :"+profile.getId());
         }
         else {
-            //showFragment(login);
+            Log.d("login","Error profile is null");
         }
     }
 
@@ -96,5 +141,16 @@ public class SocialLoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mAccessTokenTracker.stopTracking();
+        super.onDestroy();
     }
 }

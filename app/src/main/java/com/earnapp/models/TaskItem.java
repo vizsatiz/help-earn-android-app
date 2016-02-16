@@ -1,6 +1,11 @@
 package com.earnapp.models;
 
+import com.earnapp.constants.ApplicationConstants;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,9 +21,9 @@ public class TaskItem {
     private int promotes;
     private User taskOwner;
 
-    private String createdAt;
-    private String updatedAt;
-    private String expiry;
+    private Date createdAt;
+    private Date updatedAt;
+    private Date expiry;
 
     private ArrayList<Bid> bids;
 
@@ -30,12 +35,13 @@ public class TaskItem {
         this.bids = bids;
     }
 
-    public String getExpiry() {
+    public Date getExpiry() {
         return expiry;
     }
 
-    public void setExpiry(String expiry) {
-        this.expiry = expiry;
+    public void setExpiry(String expiry) throws ParseException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
+        this.expiry = dateFormat.parse(expiry);
     }
 
     public String getLocation() {
@@ -54,12 +60,13 @@ public class TaskItem {
         this.taskOwner = taskOwner;
     }
 
-    public String getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(String createdAt) throws ParseException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
+        this.createdAt = dateFormat.parse(createdAt);
     }
 
     public int getPromotes() {
@@ -70,12 +77,13 @@ public class TaskItem {
         this.promotes = promotes;
     }
 
-    public String getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(String updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedAt(String updatedAt) throws ParseException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
+        this.updatedAt = dateFormat.parse(updatedAt);
     }
 
     public String getId() {

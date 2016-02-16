@@ -1,5 +1,7 @@
 package com.earnapp.models;
 
+import com.earnapp.constants.ApplicationConstants;
+
 /**
  * Created by vizsatiz on 11-02-2016.
  */
@@ -49,7 +51,13 @@ public class User {
         this.id = userId;
     }
 
+    /**
+     * The String Url to get facebook profile pic
+     *
+     * @return
+     */
     public String getProfilePic(){
-        return null;
+        return ApplicationConstants.FB_GRAPH_BASE_URL + ApplicationConstants.FB_PROFILE_PIC_URL+"?"
+                +ApplicationConstants.ACCESS_TOKEN+"="+this.getFacebookToken();
     }
 }
