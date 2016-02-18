@@ -8,6 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.volley.CustomJsonArrayRequest;
@@ -27,7 +29,7 @@ public class WebServiceUserAdpt {
 
     private AppCompatActivity context;
     private RequestQueue requestQueue;
-    private String TAG = this.getClass().getName();
+    private String TAG = ApplicationConstants.TAG_DB_AUTH;
 
     public WebServiceUserAdpt(AppCompatActivity context){
         this.context = context;
@@ -36,14 +38,17 @@ public class WebServiceUserAdpt {
 
      public void createUser(final String username, final String name,final String password, final String facebook) throws JSONException {
          String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_CREATE_USER_URL;
-         Map<String,String> headers = new HashMap<>();
-         headers.put("Content-Type","application/json");
-         headers.put("Authorization","basicauth");
-         CustomJsonObjectRequest request = new CustomJsonObjectRequest(Request.Method.POST,url,headers, new Response.Listener<JSONObject>(){
+         Map<String,String> params = new HashMap<>();
+         params.put("username",username);
+         params.put("password",password);
+         params.put("name",name);
+         params.put("facebook",facebook);
+         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
              @Override
              public void onResponse(JSONObject response) {
                  Log.d(TAG,"User creation completed successfully");
-                 // Go to next activity
+                 WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(context);
+                 authAdpt.updateAndAuthenticateUser(username, password);
              }
          },new Response.ErrorListener(){
 
@@ -51,36 +56,33 @@ public class WebServiceUserAdpt {
              public void onErrorResponse(VolleyError error) {
                  error.printStackTrace();
              }
-         }){
+         }) {
              @Override
-             protected Map<String,String> getParams(){
-                 Map<String,String> params = new HashMap<String, String>();
-                 params.put("username",username);
-                 params.put("password",password);
-                 params.put("name",name);
-                 params.put("facebook",facebook);
-                 return params;
+             public Map<String,String> getHeaders(){
+                 HashMap<String, String> headers = new HashMap<String, String>();
+                 headers.put("Content-Type", ApplicationConstants.CONTENT_TYPE);
+                 headers.put("Authorization",ApplicationConstants.BASIC_AUTH);
+                 headers.put("User-agent", ApplicationConstants.USER_AGENT);
+                 return headers;
              }
          };
          requestQueue.add(request);
      }
 
      public void checkForExistingUser(final String username,final String password,final String facebook,final String name){
-        String url = "";
-        Map<String,String> headers = new HashMap<>();
-        headers.put("Content-Type","application/json");
-        headers.put("Authorization","basicauth");
-        CustomJsonArrayRequest request = new CustomJsonArrayRequest(Request.Method.GET,url,headers,new Response.Listener<JSONArray>(){
+        String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_USER_BY_USERNAME + username;
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,url,new Response.Listener<JSONArray>(){
             @Override
             public void onResponse(JSONArray response) {
                 if(response.length() != 0){
-                    Toast.makeText(context, "Syncing your data)",
+                    Log.d(TAG,"The user already exists !!! Welome Back");
+                    Toast.makeText(context, "Welcome Back",
                             Toast.LENGTH_SHORT).show();
-
-                    // Go to next activity
+                    WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(context);
+                    authAdpt.updateAndAuthenticateUser(username,password);
                 }else{
                     try {
-                        createUser(username,password,name,facebook);
+                        createUser(username,name,password,facebook);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -91,7 +93,16 @@ public class WebServiceUserAdpt {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            @Override
+            public Map<String,String> getHeaders(){
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", ApplicationConstants.CONTENT_TYPE);
+                headers.put("Authorization",ApplicationConstants.BASIC_AUTH);
+                headers.put("User-agent", ApplicationConstants.USER_AGENT);
+                return headers;
+            }
+        };
         requestQueue.add(request);
      }
 }

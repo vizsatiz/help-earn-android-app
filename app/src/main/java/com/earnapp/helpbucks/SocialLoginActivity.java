@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.webservice.WebServiceAuthAdpt;
 import com.earnapp.webservice.WebServiceUserAdpt;
 import com.facebook.AccessToken;
@@ -25,13 +26,13 @@ public class SocialLoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private AccessTokenTracker mAccessTokenTracker;
     private ProfileTracker mProfileTracker;
+    private String TAG = ApplicationConstants.TAG_LOGIN;
 
     final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //getSupportActionBar().hide();
         // Initializing FaceBook SDK
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -40,7 +41,7 @@ public class SocialLoginActivity extends AppCompatActivity {
         this.mAccessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                Log.d("login","onCurrentAccessTokenChanged");
+                Log.d(TAG,"Inside OnAccessToken Changed");
             }
         };
         mAccessTokenTracker.startTracking();
@@ -71,26 +72,26 @@ public class SocialLoginActivity extends AppCompatActivity {
                                 @Override
                                 protected void onCurrentProfileChanged(Profile profile, Profile profile2) {
                                     mProfileTracker.stopTracking();
-                                    Log.d("login", "login Success inside ");
+                                    Log.d(TAG, "Successfull Login !!");
                                     updateWithTokenAndProfile(profile2,true);
                                 }
                             };
                             mProfileTracker.startTracking();
                         }else {
                             Profile profile = Profile.getCurrentProfile();
-                            Log.d("login", "login Success outside ");
+                            Log.d(TAG, "Successfull Login !!");
                             updateWithTokenAndProfile(profile,true);
                         }
                     }
 
                     @Override
                     public void onCancel() {
-                        // App code
+                        Log.d(TAG, "Login cancelled onCancel!!");
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        // App code
+                        exception.printStackTrace();
                     }
                 });
         setContentView(R.layout.activity_social_login);
@@ -106,15 +107,18 @@ public class SocialLoginActivity extends AppCompatActivity {
             // creating user and authenticating webservice
             if(isFirstLogin){
                // create user
+                Log.d(TAG,"User Logging in first time !!! Going to check the server !!");
                 WebServiceUserAdpt userApdt = new WebServiceUserAdpt(this);
-                userApdt.checkForExistingUser(profile.getId());
+                userApdt.checkForExistingUser(profile.getId(),"password",AccessToken.getCurrentAccessToken().getToken(),
+                        profile.getFirstName()+" "+profile.getLastName());
             }else{
+                Log.d(TAG,"User opens the App !!! Going to web service login !!");
                 WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(this);
                 authAdpt.updateAndAuthenticateUser(profile.getId(),"password");
             }
         }
         else {
-            Log.d("login","Error profile is null");
+            Log.e(TAG,"Unable to access user profile from facebook !!!");
         }
     }
 

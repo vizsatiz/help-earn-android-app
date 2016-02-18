@@ -2,6 +2,7 @@ package com.earnapp.helpbucks;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,6 +145,7 @@ public class TaskTabs extends Fragment {
             }
 
         } else {
+            Log.d("Auth", "sdcbbhdfdhnnh");
             Map<String,String> headers = new HashMap<>();
             headers.put("Content-Type","application/json");
             headers.put("x-access-token","application/json");

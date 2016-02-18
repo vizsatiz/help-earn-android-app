@@ -1,5 +1,8 @@
 package com.earnapp.volley;
 
+import android.util.Log;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -30,10 +33,16 @@ public abstract class CustomRequest<T> extends Request<T>{
         this.headers = headers;
     }
 
-    protected Map<String, String> getParams()
-            throws com.android.volley.AuthFailureError {
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
         return headers;
-    };
+    }
+
+    @Override
+    public Map<String, String> getHeaders() {
+        Log.d("headers", "Inside set headers");
+        return headers;
+    }
 
     @Override
     abstract protected Response<T> parseNetworkResponse(NetworkResponse response);
