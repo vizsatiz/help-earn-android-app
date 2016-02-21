@@ -1,6 +1,7 @@
 package com.earnapp.helpbucks;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,20 +18,18 @@ import java.util.List;
 import java.util.Map;
 
 import com.android.volley.Cache;
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.earnapp.adapters.TaskListAdapter;
 import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.models.Bid;
 import com.earnapp.models.TaskItem;
 import com.earnapp.models.User;
-import com.earnapp.volley.CustomJsonArrayRequest;
-import com.earnapp.volley.CustomRequest;
 import com.earnapp.volley.VolleyFeedController;
+import com.earnapp.webservice.WebServiceAuthAdpt;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +51,8 @@ public class TaskTabs extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.fragment_task_tabs);
+
+
     }
 
     /**
@@ -67,8 +68,12 @@ public class TaskTabs extends Fragment {
                 item.setId(feedObj.getString(ApplicationConstants.ID));
                 item.setTaskTitle(feedObj.getString(ApplicationConstants.TITLE));
                 item.setTaskDescription(feedObj.getString(ApplicationConstants.DESCRIPTION));
-                item.setLocation(feedObj.getString(ApplicationConstants.LOCATION));
+                //item.setLocation(feedObj.getString(ApplicationConstants.LOCATION));
+                Log.d(TAG,"The User Json of Task !!!!"+feedObj.toString());
                 JSONObject userJson = feedObj.getJSONObject(ApplicationConstants.OWNER);
+
+                Log.d(TAG,"The User Json of Task !!!!"+userJson.toString());
+
                 User taskCreator = new User(userJson.getString(ApplicationConstants.ID),userJson.getString(ApplicationConstants.NAME),
                         userJson.getString(ApplicationConstants.USERNAME),userJson.getString(ApplicationConstants.FACEBOOK));
                 item.setTaskOwner(taskCreator);
@@ -80,15 +85,17 @@ public class TaskTabs extends Fragment {
                 for (int j = 0; j < bidsJsonList.length(); j++) {
                     JSONObject bidJson = bidsJsonList.getJSONObject(j);
                     JSONObject bidderJson = bidJson.getJSONObject(ApplicationConstants.BIDDER);
-                    User bidderObj = new User(bidderJson.getString(ApplicationConstants.ID),bidderJson.getString(ApplicationConstants.NAME),
+                    User bidderObj = new User(bidderJson.getString(ApplicationConstants.ID),
+                            bidderJson.getString(ApplicationConstants.NAME),
                             bidderJson.getString(ApplicationConstants.USERNAME),bidderJson.getString(ApplicationConstants.FACEBOOK));
-                    Bid bidObj = new Bid(bidJson.getString(ApplicationConstants.ID),bidJson.getInt(ApplicationConstants.AMOUNT),bidderObj);
+                    Bid bidObj = new Bid(bidJson.getString(ApplicationConstants.ID),
+                            bidJson.getInt(ApplicationConstants.AMOUNT),bidderObj);
                     item.getBids().add(bidObj);
                 }
 
                 item.setCreatedAt(feedObj.getString(ApplicationConstants.CREATED_AT));
                 item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
-                item.setPromotes(feedObj.getInt(ApplicationConstants.PROMOTES));
+                //item.setPromotes(feedObj.getInt(ApplicationConstants.PROMOTES));
 
                 taskItems.add(item);
 
@@ -119,7 +126,16 @@ public class TaskTabs extends Fragment {
     {
         //some code
         FrameLayout layout = (FrameLayout)inflater.inflate(R.layout.fragment_task_tabs, container, false);
-        //some code
+
+        FloatingActionButton createButton = (FloatingActionButton) layout.findViewById(R.id.navigateToCreateUser);
+
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Button clicked ! Going to create task !!");
+                ((TaskListActivity) getActivity()).getViewPager().setCurrentItem(1);
+            }
+        });
 
         listView = (ListView) layout.findViewById(R.id.list);
 
@@ -145,13 +161,9 @@ public class TaskTabs extends Fragment {
             }
 
         } else {
-            Log.d("Auth", "sdcbbhdfdhnnh");
-            Map<String,String> headers = new HashMap<>();
-            headers.put("Content-Type","application/json");
-            headers.put("x-access-token","application/json");
             // making fresh volley request and getting json
-            CustomJsonArrayRequest jsonReq = new CustomJsonArrayRequest(ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_TASK
-                    , headers, new Response.Listener<JSONArray>() {
+            String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_TASK;
+            JsonArrayRequest jsonReq = new JsonArrayRequest(Request.Method.GET,url, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     VolleyLog.d(TAG, "Response: " + response.toString());
@@ -168,7 +180,16 @@ public class TaskTabs extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.d(TAG, "Error: " + error.getMessage());
                 }
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String,String> headers = new HashMap<>();
+                    headers.put("Content-Type",ApplicationConstants.CONTENT_TYPE);
+                    headers.put("x-access-token", WebServiceAuthAdpt.xAccessToken);
+                    headers.put("User-agent", ApplicationConstants.USER_AGENT);
+                    return headers;
+                }
+            };
             // Adding request to volley request queue
             VolleyFeedController.getInstance().addToRequestQueue(jsonReq);
         }

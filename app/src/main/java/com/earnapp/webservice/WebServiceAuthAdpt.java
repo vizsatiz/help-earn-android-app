@@ -1,5 +1,6 @@
 package com.earnapp.webservice;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -10,7 +11,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.earnapp.constants.ApplicationConstants;
+import com.earnapp.helpbucks.TaskListActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +31,7 @@ public class WebServiceAuthAdpt {
     private String TAG = ApplicationConstants.TAG_DB_AUTH;
 
     public static String xAccessToken;
+    public static String userId;
 
 
     public WebServiceAuthAdpt(AppCompatActivity context){
@@ -35,20 +39,25 @@ public class WebServiceAuthAdpt {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    public void updateAndAuthenticateUser(final String username,final String password){
+    public void updateAndAuthenticateUser(final String username,final String password,final String facebook,final String name){
         Log.d(TAG,"Going for authenticate and update call");
         String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_AUTHENTICATE;
         Map<String,String> params = new HashMap<>();
         params.put(ApplicationConstants.USERNAME,username);
         params.put(ApplicationConstants.PASSWORD,password);
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
+        params.put(ApplicationConstants.NAME,password);
+        params.put(ApplicationConstants.FACEBOOK,password);
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "Authencation Success !!");
                 try {
                     // Getting the token from Authentication Response
                     WebServiceAuthAdpt.xAccessToken = response.getString(ApplicationConstants.TOKEN);
-                    // Moving to next activity
+                    JSONArray userArray = response.getJSONArray("user");
+                    userId = userArray.getJSONObject(0).getString("_id");
+                    Intent intent = new Intent(context, TaskListActivity.class);
+                    context.startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -56,6 +65,7 @@ public class WebServiceAuthAdpt {
         },new Response.ErrorListener(){
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Auth Failure  !! "+ error.getMessage());
                 error.printStackTrace();
             }
         }){

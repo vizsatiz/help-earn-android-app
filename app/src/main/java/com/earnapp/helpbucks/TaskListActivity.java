@@ -2,6 +2,7 @@ package com.earnapp.helpbucks;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,8 +10,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.earnapp.constants.ApplicationConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,17 @@ public class TaskListActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+
+    private String TAG = ApplicationConstants.TAG_TASK;
+
+
+    public ViewPager getViewPager() {
+        return viewPager;
+    }
+
+    public void setViewPager(ViewPager viewPager) {
+        this.viewPager = viewPager;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +55,11 @@ public class TaskListActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TaskTabs(), "ONE");
-        adapter.addFragment(new ProfileTab(), "TWO");
-        adapter.addFragment(new HistoryTab(), "THREE");
+        adapter.addFragment(new TaskTabs(), "Tasks");
+        adapter.addFragment(new CreateTaskTab(), "Create a Task");
+        adapter.addFragment(new ProfileTab(), "You");
+        adapter.addFragment(new HistoryTab(), "History");
         viewPager.setAdapter(adapter);
-    }
-
-    public void onAuthButtonClick(View v){
-        Button b = (Button)v;
-        ((Button) v).setText("Clicked");
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

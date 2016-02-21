@@ -42,13 +42,14 @@ public class WebServiceUserAdpt {
          params.put("username",username);
          params.put("password",password);
          params.put("name",name);
+         Log.d(TAG,"User facebook token : "+facebook);
          params.put("facebook",facebook);
          JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
              @Override
              public void onResponse(JSONObject response) {
                  Log.d(TAG,"User creation completed successfully");
                  WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(context);
-                 authAdpt.updateAndAuthenticateUser(username, password);
+                 authAdpt.updateAndAuthenticateUser(username, password,facebook,name);
              }
          },new Response.ErrorListener(){
 
@@ -79,7 +80,7 @@ public class WebServiceUserAdpt {
                     Toast.makeText(context, "Welcome Back",
                             Toast.LENGTH_SHORT).show();
                     WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(context);
-                    authAdpt.updateAndAuthenticateUser(username,password);
+                    authAdpt.updateAndAuthenticateUser(username,password,facebook,name);
                 }else{
                     try {
                         createUser(username,name,password,facebook);

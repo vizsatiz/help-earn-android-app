@@ -114,7 +114,8 @@ public class SocialLoginActivity extends AppCompatActivity {
             }else{
                 Log.d(TAG,"User opens the App !!! Going to web service login !!");
                 WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(this);
-                authAdpt.updateAndAuthenticateUser(profile.getId(),"password");
+                authAdpt.updateAndAuthenticateUser(profile.getId(),"password",AccessToken.getCurrentAccessToken().getToken()
+                        ,profile.getFirstName()+" "+profile.getLastName());
             }
         }
         else {

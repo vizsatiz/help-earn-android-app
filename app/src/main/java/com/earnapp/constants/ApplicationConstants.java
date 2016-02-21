@@ -8,15 +8,17 @@ public interface ApplicationConstants {
     //Logs
     public static final String TAG_LOGIN  = "Login";
     public static final String TAG_DB_AUTH  = "WebAuth";
+    public static final String TAG_TASK = "Task";
+
 
     // Basic Auth
     public static final String BASIC_AUTH = "Basic YmFzaWNhdXRoOmJhc2ljYXV0aA==";
     public static final String USER_AGENT = "HelpEarn Android Application";
-    public static final String CONTENT_TYPE = "application/json; charset=utf-8";
+    public static final String CONTENT_TYPE = "application/json;charset=utf-8";
 
     // Base URLs
     public static final String FB_GRAPH_BASE_URL = "https://graph.facebook.com";
-    public static final String DB_BASE_URL = "http://10.10.17.167:3000";
+    public static final String DB_BASE_URL = "http://192.168.0.108:3000";
 
     // URL paths
     //FB
@@ -24,6 +26,7 @@ public interface ApplicationConstants {
     //Backend
     public static final String DB_CREATE_USER_URL = "/register/user";
     public static final String DB_GET_TASK  = "/api/v1/task";
+    public static final String DB_POST_TASK  = "/api/v1/task";
     public static final String DB_AUTHENTICATE  = "/authenticate";
     public static final String DB_GET_USER_BY_USERNAME  = "/register/user/";
 
@@ -62,7 +65,5 @@ public interface ApplicationConstants {
 
     //Auth
     public static final String TOKEN = "token";
-
-
 
 }
