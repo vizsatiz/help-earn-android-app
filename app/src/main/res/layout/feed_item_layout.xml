@@ -14,8 +14,8 @@
         android:layout_marginTop="@dimen/feed_item_margin"
         android:background="@drawable/bg_parent_rounded_corner"
         android:orientation="vertical"
-        android:paddingBottom="@dimen/feed_item_padding_top_bottom"
-        android:paddingTop="@dimen/feed_item_padding_top_bottom" >
+        android:paddingBottom="@dimen/feed_item_padding_bottom"
+        android:paddingTop="@dimen/feed_item_padding_top" >
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -65,6 +65,8 @@
 
         <TextView
             android:id="@+id/txtDescription"
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="italic"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="5dp"
@@ -72,17 +74,26 @@
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
 
-        <com.earnapp.feeds.FeedImageView
-            android:id="@+id/feedImage1"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtReward"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:scaleType="fitXY"
-            android:visibility="visible" />
+            android:fontFamily="sans-serif-thin"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textAlignment="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+            android:paddingRight="@dimen/feed_item_status_pad_left_right"
+            android:paddingTop="@dimen/feed_item_status_pad_top" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_margin="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:background="#c0c0c0"/>
 
         <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent">
@@ -90,47 +101,40 @@
                 android:id="@+id/toolbar"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom= "-7dp">
+                android:layout_marginBottom= "0dp">
 
                 <Button
                     android:id="@+id/btn_places"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="-1dp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:layout_marginRight="-4.2dp"
-                    android:layout_marginLeft="-4.2dp"
+                    android:padding="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
                     android:textSize="10dp"
+                    android:background="#ffffff"
                     android:drawableLeft="@drawable/ic_promote_task"
-                    android:text="swfed" />
+                    android:text="promote" />
 
                 <Button
                     android:id="@+id/btn_events"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="-1dp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:layout_marginRight="-4.2dp"
-                    android:layout_marginLeft="-4.2dp"
+                    android:padding="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
                     android:textSize="10dp"
+                    android:background="#ffffff"
                     android:drawableLeft="@drawable/ic_promote_task"
-                    android:text="efew" />
+                    android:text="bid" />
 
                 <Button
                     android:id="@+id/btn_about"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginBottom="-1dp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.2"
-                    android:layout_marginRight="-4dp"
-                    android:layout_marginLeft="-4.2dp"
-                    android:text="fedf"
+                    android:padding="1dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_weight="0.1"
+                    android:text="comment"
+                    android:background="#ffffff"
                     android:drawableLeft="@drawable/ic_promote_task"
                     android:textSize="10dp" />
-
             </TableRow>
         </LinearLayout>
     </LinearLayout>
