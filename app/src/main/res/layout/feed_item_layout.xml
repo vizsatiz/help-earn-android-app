@@ -82,60 +82,88 @@
             android:textStyle="bold"
             android:textSize="20dp"
             android:textAlignment="center"
-            android:paddingBottom="5dp"
+            android:paddingBottom="2dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
 
+        <TextView
+            android:id="@+id/txtPromotes"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
+            android:textSize="13dp"
+            android:gravity="left"
+            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+            android:paddingRight="@dimen/feed_item_status_pad_left_right"
+            android:paddingTop="8dp" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="0.5dp"
+            android:layout_marginBottom="0.5dp"
             android:background="#c0c0c0"/>
 
-        <LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:layout_width="match_parent">
-            <TableRow
-                android:id="@+id/toolbar"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom= "0dp">
-
-                <Button
-                    android:id="@+id/btn_places"
-                    android:padding="1dp"
+        <LinearLayout android:id="@+id/LinearLayout007" android:layout_height="30dp" android:layout_width="match_parent">
+            <LinearLayout
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:id="@+id/promote_button"
+                android:orientation="horizontal" >
+                <ImageView
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:id="@+id/promote_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.1"
-                    android:textSize="10dp"
-                    android:background="#ffffff"
-                    android:drawableLeft="@drawable/ic_promote_task"
-                    android:text="promote" />
-
-                <Button
-                    android:id="@+id/btn_events"
-                    android:padding="1dp"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:background="#0000"
+                    android:paddingLeft="2dp"
+                    android:src="@drawable/ic_single_heart_uncolored"/>
+                <TextView
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:gravity="left"
+                    android:background="#0000"
+                    android:paddingTop="3dp"
+                    android:textColor="#B6B3B2"
+                    android:textAllCaps="false"
+                    android:text="Promote" />
+            </LinearLayout>
+            <LinearLayout
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:id="@+id/bid_button"
+                android:orientation="horizontal">
+                <ImageView
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.1"
-                    android:textSize="10dp"
-                    android:background="#ffffff"
-                    android:drawableLeft="@drawable/ic_promote_task"
-                    android:text="bid" />
-
-                <Button
-                    android:id="@+id/btn_about"
-                    android:padding="1dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="0.1"
-                    android:text="comment"
-                    android:background="#ffffff"
-                    android:drawableLeft="@drawable/ic_promote_task"
-                    android:textSize="10dp" />
-            </TableRow>
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:background="#0000"
+                    android:src="@drawable/ic_indian_rupee_slim"/>
+                <TextView
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:background="#0000"
+                    android:gravity="left"
+                    android:paddingTop="3dp"
+                    android:textColor="#B6B3B2"
+                    android:textAllCaps="false"
+                    android:text="Bid" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

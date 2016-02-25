@@ -95,25 +95,18 @@ public class TaskTabs extends Fragment {
 
                 item.setCreatedAt(feedObj.getString(ApplicationConstants.CREATED_AT));
                 item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
-                //item.setPromotes(feedObj.getInt(ApplicationConstants.PROMOTES));
-
+                JSONArray promoters = feedObj.getJSONArray(ApplicationConstants.PROMOTES);
+                item.setPromotes(promoters.length());
+                boolean isPromoted = false;
+                for(int k=0;k< promoters.length();k++){
+                    Log.d("dejknfi --------------->>","Comparing ids :"+promoters.getString(k) +" >"+WebServiceAuthAdpt.userId);
+                    if (promoters.getString(k).equals(WebServiceAuthAdpt.userId)){
+                        isPromoted = true;
+                        break;
+                    }
+                }
+                item.setIsPromoted(isPromoted);
                 taskItems.add(item);
-
-               // item.setName(feedObj.getString("name"));
-
-                // Image might be null sometimes
-               // String image = feedObj.isNull("image") ? null : feedObj
-                //        .getString("image");
-                //item.setImge(image);
-                //item.setStatus(feedObj.getString("status"));
-                //item.setProfilePic(feedObj.getString("profilePic"));
-                //item.setTimeStamp(feedObj.getString("timeStamp"));
-
-                // url might be null sometimes
-                //String feedUrl = feedObj.isNull("url") ? null : feedObj
-                  //      .getString("url");
-                //item.setUrl(feedUrl);
-                //taskItems.add(item);
             }
             // notify data changes to list adapater
             listAdapter.notifyDataSetChanged();

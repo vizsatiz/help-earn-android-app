@@ -19,6 +19,7 @@ public class TaskItem {
     private int reward;
     private String location;
     private int promotes;
+    private boolean isPromoted;
     private User taskOwner;
 
     private Date createdAt;
@@ -26,6 +27,14 @@ public class TaskItem {
     private Date expiry;
 
     private ArrayList<Bid> bids;
+
+    public boolean isPromoted(){
+        return isPromoted;
+    }
+
+    public void setIsPromoted(boolean isPromoted){
+        this.isPromoted = isPromoted;
+    }
 
     public ArrayList<Bid> getBids() {
         return bids;

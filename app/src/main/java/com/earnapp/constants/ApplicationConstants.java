@@ -18,7 +18,7 @@ public interface ApplicationConstants {
 
     // Base URLs
     public static final String FB_GRAPH_BASE_URL = "https://graph.facebook.com";
-    public static final String DB_BASE_URL = "http://192.168.0.107:3000";
+    public static final String DB_BASE_URL = "http://192.168.0.105:3000";
 
     // URL paths
     //FB
@@ -52,6 +52,7 @@ public interface ApplicationConstants {
     public static final String TITLE = "title";
     public static final String OWNER = "owner";
     public static final String PROMOTES = "promotes";
+    public static final String PROMOTER = "promoter";
 
     // User
     public static final String NAME = "name";
