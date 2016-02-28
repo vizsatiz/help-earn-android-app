@@ -2,7 +2,6 @@ package com.earnapp.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
@@ -14,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -30,6 +30,7 @@ import com.earnapp.models.TaskItem;
 import com.earnapp.volley.VolleyFeedController;
 import com.earnapp.webservice.WebServiceAuthAdpt;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public class TaskListAdapter extends BaseAdapter {
         TextView title = (TextView) convertView
                 .findViewById(R.id.txtTitle);
         TextView description = (TextView) convertView.findViewById(R.id.txtDescription);
-       TextView reward = (TextView) convertView.findViewById(R.id.rewardtxt);
+        TextView reward = (TextView) convertView.findViewById(R.id.rewardtxt);
         NetworkImageView profilePic = (NetworkImageView) convertView
                 .findViewById(R.id.profilePic);
         TaskItem item = feedItems.get(position);
@@ -112,45 +113,61 @@ public class TaskListAdapter extends BaseAdapter {
         }
 
         // Check for empty status message
-         reward.setText(""+item.getReward());
-         reward.setVisibility(View.VISIBLE);
-         this.setRewardColorCode(reward, item.getReward());
+        reward.setText("" + item.getReward());
+        reward.setVisibility(View.VISIBLE);
+        this.setRewardColorCode(convertView, item.getReward());
+
 
         TextView promotes = (TextView) convertView.findViewById(R.id.txtPromotes);
-        promotes.setText(item.getPromotes() + "  " + ApplicationConstants.PROMOTES);
-
-        if (item.isPromoted()) {
+        promotes.setText(item.getPromotes().length() + "  " + ApplicationConstants.PROMOTES);
+        boolean isPromoted = false;
+        for (int k = 0; k < item.getPromotes().length(); k++) {
+            try {
+                if (item.getPromotes().getString(k).equals(WebServiceAuthAdpt.userId)) {
+                    isPromoted = true;
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (isPromoted) {
             ImageView promote_button_image = (ImageView) convertView.findViewById(R.id.promote_image);
             promote_button_image.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_promote_icon_colored));
+        } else {
+            ImageView promote_button_image = (ImageView) convertView.findViewById(R.id.promote_image);
+            promote_button_image.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_single_heart_uncolored));
         }
         // user profile pic
         profilePic.setImageUrl(item.getTaskOwner().getProfilePic(), imageLoader);
 
         //Set Button Logics
-        setPromoteButtonLogic(convertView, item);
+        setPromoteButtonLogic(convertView, item, isPromoted);
 
         return convertView;
     }
 
 
-    public void setRewardColorCode(TextView view, int amount) {
+    public void setRewardColorCode(View view, int amount) {
+        ImageView rewardIcon = (ImageView) view.findViewById(R.id.ruppeeSymbol);
         if (amount <= ApplicationConstants.SLAB_1) {
-            view.setTextColor(Color.parseColor("#000000"));
+            rewardIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.rupee));
         } else if (amount <= ApplicationConstants.SLAB_2) {
-            view.setTextColor(Color.parseColor("#000000"));
+            rewardIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.rupee_green));
         } else {
-            view.setTextColor(Color.parseColor("#000000"));
+            rewardIcon.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.rupee_red));
         }
     }
 
-    public void setPromoteButtonLogic(final View feedView, final TaskItem item) {
+    public void setPromoteButtonLogic(final View feedView, final TaskItem item, final boolean isPromoted) {
         final String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_POST_TASK + "/" + item.getId();
         LinearLayout promoteButton = (LinearLayout) feedView.findViewById(R.id.promote_button);
         promoteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                if (item.isPromoted()) {
-                    Log.d(ApplicationConstants.TAG_TASK, "You have already promoted the task !!");
+                if (isPromoted) {
+                    Toast.makeText(activity, "You have already promoted this task",
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     Map<String, String> params = new HashMap<String, String>();
                     params.put(ApplicationConstants.PROMOTER, WebServiceAuthAdpt.userId);
@@ -161,9 +178,7 @@ public class TaskListAdapter extends BaseAdapter {
                             TextView txtPromote = (TextView) feedView.findViewById(R.id.txtPromotes);
                             ImageView promote_button_image = (ImageView) feedView.findViewById(R.id.promote_image);
                             promote_button_image.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_promote_icon_colored));
-                            txtPromote.setText(item.getPromotes() + 1);
-                            item.setPromotes(item.getPromotes() + 1);
-                            item.setIsPromoted(true);
+                            txtPromote.setText("" + (item.getPromotes().length() + 1)+"  promotes");
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -186,7 +201,5 @@ public class TaskListAdapter extends BaseAdapter {
             }
         });
     }
-
-
 }
 

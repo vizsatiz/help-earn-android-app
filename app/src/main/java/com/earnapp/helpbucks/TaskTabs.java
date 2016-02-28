@@ -39,8 +39,8 @@ public class TaskTabs extends Fragment {
 
     private static final String TAG = TaskTabs.class.getSimpleName();
     private ListView listView;
-    private TaskListAdapter listAdapter;
-    private List<TaskItem> taskItems;
+    private static TaskListAdapter listAdapter;
+    private static List<TaskItem> taskItems;
 
 
     public TaskTabs() {
@@ -58,7 +58,7 @@ public class TaskTabs extends Fragment {
     /**
      * Parsing json reponse and passing the data to feed view list adapter
      * */
-    private void parseJsonFeed(JSONArray response) throws ParseException{
+    private static void parseJsonFeed(JSONArray response) throws ParseException{
         try {
             JSONArray feedArray = response;
             for (int i = 0; i < feedArray.length(); i++) {
@@ -69,10 +69,7 @@ public class TaskTabs extends Fragment {
                 item.setTaskTitle(feedObj.getString(ApplicationConstants.TITLE));
                 item.setTaskDescription(feedObj.getString(ApplicationConstants.DESCRIPTION));
                 //item.setLocation(feedObj.getString(ApplicationConstants.LOCATION));
-                Log.d(TAG,"The User Json of Task !!!!"+feedObj.toString());
                 JSONObject userJson = feedObj.getJSONObject(ApplicationConstants.OWNER);
-
-                Log.d(TAG,"The User Json of Task !!!!"+userJson.toString());
 
                 User taskCreator = new User(userJson.getString(ApplicationConstants.ID),userJson.getString(ApplicationConstants.NAME),
                         userJson.getString(ApplicationConstants.USERNAME),userJson.getString(ApplicationConstants.FACEBOOK));
@@ -96,16 +93,7 @@ public class TaskTabs extends Fragment {
                 item.setCreatedAt(feedObj.getString(ApplicationConstants.CREATED_AT));
                 item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
                 JSONArray promoters = feedObj.getJSONArray(ApplicationConstants.PROMOTES);
-                item.setPromotes(promoters.length());
-                boolean isPromoted = false;
-                for(int k=0;k< promoters.length();k++){
-                    Log.d("dejknfi --------------->>","Comparing ids :"+promoters.getString(k) +" >"+WebServiceAuthAdpt.userId);
-                    if (promoters.getString(k).equals(WebServiceAuthAdpt.userId)){
-                        isPromoted = true;
-                        break;
-                    }
-                }
-                item.setIsPromoted(isPromoted);
+                item.setPromotes(promoters);
                 taskItems.add(item);
             }
             // notify data changes to list adapater
@@ -137,6 +125,12 @@ public class TaskTabs extends Fragment {
         listAdapter = new TaskListAdapter(taskItems,this.getActivity());
         listView.setAdapter(listAdapter);
 
+        requestServerAndGetTasks();
+
+        return layout;
+    }
+
+    public static void requestServerAndGetTasks(){
         // We first check for cached request
         Cache cache = VolleyFeedController.getInstance().getRequestQueue().getCache();
         Cache.Entry entry = cache.get(ApplicationConstants.DB_BASE_URL+ApplicationConstants.DB_GET_TASK);
@@ -159,7 +153,6 @@ public class TaskTabs extends Fragment {
             JsonArrayRequest jsonReq = new JsonArrayRequest(Request.Method.GET,url, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    VolleyLog.d(TAG, "Response: " + response.toString());
                     if (response != null) {
                         try {
                             parseJsonFeed(response);
@@ -186,6 +179,6 @@ public class TaskTabs extends Fragment {
             // Adding request to volley request queue
             VolleyFeedController.getInstance().addToRequestQueue(jsonReq);
         }
-        return layout;
     }
+
 }

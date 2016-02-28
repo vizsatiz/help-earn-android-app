@@ -75,7 +75,7 @@
             android:textStyle="italic" />
 
         <ImageView
-            android:id="@+id/ruppeSymbol"
+            android:id="@+id/ruppeeSymbol"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"

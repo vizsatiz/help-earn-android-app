@@ -2,6 +2,8 @@ package com.earnapp.models;
 
 import com.earnapp.constants.ApplicationConstants;
 
+import org.json.JSONArray;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,8 +20,8 @@ public class TaskItem {
     private String taskDescription;
     private int reward;
     private String location;
-    private int promotes;
-    private boolean isPromoted;
+    private JSONArray promotes;
+
     private User taskOwner;
 
     private Date createdAt;
@@ -27,14 +29,6 @@ public class TaskItem {
     private Date expiry;
 
     private ArrayList<Bid> bids;
-
-    public boolean isPromoted(){
-        return isPromoted;
-    }
-
-    public void setIsPromoted(boolean isPromoted){
-        this.isPromoted = isPromoted;
-    }
 
     public ArrayList<Bid> getBids() {
         return bids;
@@ -78,11 +72,11 @@ public class TaskItem {
         this.createdAt = dateFormat.parse(createdAt);
     }
 
-    public int getPromotes() {
+    public JSONArray getPromotes() {
         return promotes;
     }
 
-    public void setPromotes(int promotes) {
+    public void setPromotes(JSONArray promotes) {
         this.promotes = promotes;
     }
 
