@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.helpbucks.TaskListActivity;
+import com.earnapp.models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,7 @@ public class WebServiceAuthAdpt {
     private String TAG = ApplicationConstants.TAG_DB_AUTH;
 
     public static String xAccessToken;
-    public static String userId;
+    public static User user;
 
 
     public WebServiceAuthAdpt(AppCompatActivity context){
@@ -45,8 +46,8 @@ public class WebServiceAuthAdpt {
         Map<String,String> params = new HashMap<>();
         params.put(ApplicationConstants.USERNAME,username);
         params.put(ApplicationConstants.PASSWORD,password);
-        params.put(ApplicationConstants.NAME,password);
-        params.put(ApplicationConstants.FACEBOOK,password);
+        params.put(ApplicationConstants.NAME,name);
+        params.put(ApplicationConstants.FACEBOOK,facebook);
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
@@ -55,7 +56,8 @@ public class WebServiceAuthAdpt {
                     // Getting the token from Authentication Response
                     WebServiceAuthAdpt.xAccessToken = response.getString(ApplicationConstants.TOKEN);
                     JSONArray userArray = response.getJSONArray("user");
-                    userId = userArray.getJSONObject(0).getString("_id");
+                    String userId = userArray.getJSONObject(0).getString("_id");
+                    user = new User(userId,name,username,facebook);
                     Intent intent = new Intent(context, TaskListActivity.class);
                     context.startActivity(intent);
                 } catch (JSONException e) {

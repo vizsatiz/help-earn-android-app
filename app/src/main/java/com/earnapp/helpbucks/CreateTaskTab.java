@@ -89,7 +89,7 @@ public class CreateTaskTab extends Fragment {
                     }
 
 
-                    String userId = WebServiceAuthAdpt.userId;
+                    String userId = WebServiceAuthAdpt.user.getId();
 
                     try {
                         payload.put("owner", userId);

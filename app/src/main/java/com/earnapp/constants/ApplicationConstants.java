@@ -18,7 +18,7 @@ public interface ApplicationConstants {
 
     // Base URLs
     public static final String FB_GRAPH_BASE_URL = "https://graph.facebook.com";
-    public static final String DB_BASE_URL = "http://10.10.17.34:3000";
+    public static final String DB_BASE_URL = "http://10.10.1.58:3000";
 
     // URL paths
     //FB
@@ -26,6 +26,7 @@ public interface ApplicationConstants {
     //Backend
     public static final String DB_CREATE_USER_URL = "/register/user";
     public static final String DB_GET_TASK  = "/api/v1/task";
+    public static final String DB_POST_BID  = "/api/v1/bids";
     public static final String DB_POST_TASK  = "/api/v1/task";
     public static final String DB_AUTHENTICATE  = "/authenticate";
     public static final String DB_GET_USER_BY_USERNAME  = "/register/user/";

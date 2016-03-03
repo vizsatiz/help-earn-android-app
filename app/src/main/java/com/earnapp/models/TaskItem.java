@@ -28,13 +28,13 @@ public class TaskItem {
     private Date updatedAt;
     private Date expiry;
 
-    private ArrayList<Bid> bids;
+    private ArrayList<BidItem> bids;
 
-    public ArrayList<Bid> getBids() {
+    public ArrayList<BidItem> getBids() {
         return bids;
     }
 
-    public void setBids(ArrayList<Bid> bids) {
+    public void setBids(ArrayList<BidItem> bids) {
         this.bids = bids;
     }
 
