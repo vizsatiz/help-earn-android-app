@@ -6,6 +6,7 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -23,13 +24,14 @@ import java.util.List;
 public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHolder> {
 
     private Activity activity;
-    private LayoutInflater inflater;
     private List<BidItem> bidItems;
+    private boolean renderButton;
     ImageLoader imageLoader = VolleyFeedController.getInstance().getImageLoader();
 
-    public BidListAdapter(Activity activity, ArrayList<BidItem> bidItems) {
+    public BidListAdapter(Activity activity, ArrayList<BidItem> bidItems,boolean renderButton) {
         this.activity = activity;
         this.bidItems = bidItems;
+        this.renderButton = renderButton;
     }
 
     @Override
@@ -53,6 +55,11 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         holder.bidTime.setText(timeAgo);
         holder.bidAmount.setText("₹ " + bid.getAmount());
+        if(!renderButton){
+            holder.acceptButton.setVisibility(View.GONE);
+        }else{
+            // provide Onclick Logic
+        }
     }
 
     @Override
@@ -69,6 +76,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
         public NetworkImageView profilePic;
         public TextView bidTime;
         public TextView bidAmount;
+        private Button acceptButton;
 
         public ViewHolder(View v) {
             super(v);
@@ -76,6 +84,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
             profilePic = (NetworkImageView) v.findViewById(R.id.bid_profile_pic);
             bidTime = (TextView) v.findViewById(R.id.bid_time);
             bidAmount = (TextView) v.findViewById(R.id.bid_amount_txt);
+            acceptButton = (Button) v.findViewById(R.id.accept_bid);
         }
     }
 

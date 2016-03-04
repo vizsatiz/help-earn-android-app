@@ -65,5 +65,24 @@
             android:fontFamily="sans-serif-thin"
             android:textStyle="bold"/>
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:id="@+id/straight_line"
+            android:layout_marginBottom="0.5dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="0.5dp"
+            android:background="#c0c0c0" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/accept_bid"
+            android:text="Accept"
+            android:textAllCaps="false"
+            android:paddingTop="1dp"
+            android:background="#ffffff"/>
+
     </LinearLayout>
 </LinearLayout>

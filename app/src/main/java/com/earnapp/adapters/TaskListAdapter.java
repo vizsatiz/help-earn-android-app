@@ -235,7 +235,7 @@ public class TaskListAdapter extends BaseAdapter {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity);
                 bidListView.setLayoutManager(mLayoutManager);
 
-                bidAdapter = new BidListAdapter(activity,item.getBids());
+                bidAdapter = new BidListAdapter(activity,item.getBids(),false);
                 bidListView.setAdapter(bidAdapter);
 
                 setCloseButtonLogic(inflatedView, popWindow);

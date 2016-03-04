@@ -59,6 +59,7 @@
         android:background="@color/feed_item_border" />
 
     <LinearLayout
+        android:id="@+id/add_bids_comment_line"
         android:padding="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -75,6 +76,9 @@ public class YouTaskList extends RecyclerView.Adapter<YouTaskList.ViewHolder> {
                 LayoutInflater layoutInflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 final View inflatedView = layoutInflater.inflate(R.layout.popup_bid_layout, null, false);
 
+                LinearLayout bid_comment_line = (LinearLayout)inflatedView.findViewById(R.id.add_bids_comment_line);
+                bid_comment_line.setVisibility(View.GONE);
+
                 Display display = activity.getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
@@ -89,7 +93,7 @@ public class YouTaskList extends RecyclerView.Adapter<YouTaskList.ViewHolder> {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity);
                 bidListView.setLayoutManager(mLayoutManager);
 
-                bidAdapter = new BidListAdapter(activity,task.getBids());
+                bidAdapter = new BidListAdapter(activity,task.getBids(),true);
                 bidListView.setAdapter(bidAdapter);
 
                 setCloseButtonLogic(inflatedView, popWindow);
