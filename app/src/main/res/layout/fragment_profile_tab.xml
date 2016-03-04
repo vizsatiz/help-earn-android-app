@@ -20,6 +20,8 @@
         android:id="@+id/you_bid_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
         android:layout_weight="1"/>
 
 </FrameLayout>

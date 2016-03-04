@@ -190,6 +190,7 @@ public class TaskListAdapter extends BaseAdapter {
                             ImageView promote_button_image = (ImageView) feedView.findViewById(R.id.promote_image);
                             promote_button_image.setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.ic_promote_icon_colored));
                             txtPromote.setText("" + (item.getPromotes().length() + 1)+"  promotes");
+                            notifyDataSetChanged();
                         }
                     }, new Response.ErrorListener() {
                         @Override

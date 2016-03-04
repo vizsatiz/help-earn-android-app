@@ -57,6 +57,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
         holder.bidAmount.setText("₹ " + bid.getAmount());
         if(!renderButton){
             holder.acceptButton.setVisibility(View.GONE);
+            holder.comment_line.setVisibility(View.GONE);
         }else{
             // provide Onclick Logic
         }
@@ -77,6 +78,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
         public TextView bidTime;
         public TextView bidAmount;
         private Button acceptButton;
+        private View comment_line;
 
         public ViewHolder(View v) {
             super(v);
@@ -85,6 +87,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
             bidTime = (TextView) v.findViewById(R.id.bid_time);
             bidAmount = (TextView) v.findViewById(R.id.bid_amount_txt);
             acceptButton = (Button) v.findViewById(R.id.accept_bid);
+            comment_line = (View) v.findViewById(R.id.straight_line);
         }
     }
 
