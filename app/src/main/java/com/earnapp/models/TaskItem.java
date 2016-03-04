@@ -30,6 +30,8 @@ public class TaskItem {
 
     private ArrayList<BidItem> bids;
 
+
+
     public ArrayList<BidItem> getBids() {
         return bids;
     }

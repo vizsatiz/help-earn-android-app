@@ -28,6 +28,7 @@ public interface ApplicationConstants {
     public static final String DB_GET_TASK  = "/api/v1/task";
     public static final String DB_POST_BID  = "/api/v1/bids";
     public static final String DB_POST_TASK  = "/api/v1/task";
+    public static final String DB_GET_MY_TASK  = "/api/v2/task";
     public static final String DB_AUTHENTICATE  = "/authenticate";
     public static final String DB_GET_USER_BY_USERNAME  = "/register/user/";
 

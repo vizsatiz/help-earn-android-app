@@ -2,8 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:padding="1dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,16 +52,37 @@
                 android:textSize="@dimen/feed_item_timestamp" />
 
         </LinearLayout>
-      </LinearLayout>
 
-        <TextView
-            android:id="@+id/bid_amount_txt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:gravity="center"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/titletxt"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-thin"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+        android:paddingRight="@dimen/feed_item_status_pad_left_right"
+        android:paddingTop="@dimen/feed_item_status_pad_top"
+        android:textStyle="italic" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="0.5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0.5dp"
+        android:background="#c0c0c0" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/see_all_bids"
+        android:text="See Bids"
+        android:textAllCaps="false"
+        android:paddingTop="1dp"
+        android:background="#ffffff"/>
 
     </LinearLayout>
 </LinearLayout>

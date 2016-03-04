@@ -287,7 +287,7 @@ public class TaskListAdapter extends BaseAdapter {
                             try {
                                 BidItem bid = new BidItem(response.getString(ApplicationConstants.ID),
                                         response.getInt(ApplicationConstants.AMOUNT),WebServiceAuthAdpt.user,
-                                        response.getString(ApplicationConstants.CREATED_AT),response.getString(ApplicationConstants.UPDATED_AT) );
+                                        response.getString(ApplicationConstants.CREATED_AT),response.getString(ApplicationConstants.UPDATED_AT));
                                 bidAdapter.add(bid);
                             } catch (JSONException e) {
                                 e.printStackTrace();
