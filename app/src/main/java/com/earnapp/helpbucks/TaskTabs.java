@@ -83,12 +83,12 @@ public class TaskTabs extends Fragment {
                     User bidderObj = new User(bidderJson.getString(ApplicationConstants.ID),
                             bidderJson.getString(ApplicationConstants.NAME),
                             bidderJson.getString(ApplicationConstants.USERNAME), bidderJson.getString(ApplicationConstants.FACEBOOK));
+                    bidderObj.setGMCToken(bidderJson.getString(ApplicationConstants.GCM_TOKEN));
                     BidItem bidObj = new BidItem(bidJson.getString(ApplicationConstants.ID),
                             bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj,bidJson.getString(ApplicationConstants.CREATED_AT),
                             bidJson.getString(ApplicationConstants.UPDATED_AT));
                     item.getBids().add(bidObj);
                 }
-
                 item.setCreatedAt(feedObj.getString(ApplicationConstants.CREATED_AT));
                 item.setUpdatedAt(feedObj.getString(ApplicationConstants.UPDATED_AT));
                 JSONArray promoters = feedObj.getJSONArray(ApplicationConstants.PROMOTES);

@@ -11,12 +11,21 @@ public class User {
     private String name;
     private String username;
     private String facebookToken;
+    private String gmcToken;
 
     public User(String id,String name,String username,String facebooktoken){
         this.id = id;
         this.name = name;
         this.username = username;
         this.facebookToken = facebooktoken;
+    }
+
+    public String getGMCToken(){
+        return this.gmcToken;
+    }
+
+    public void setGMCToken(String gmcToken){
+        this.gmcToken = gmcToken;
     }
 
     public String getUsername() {

@@ -6,6 +6,7 @@ import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -98,8 +99,7 @@ public class YouTaskList extends RecyclerView.Adapter<YouTaskList.ViewHolder> {
 
                 setCloseButtonLogic(inflatedView, popWindow);
 
-                ImageView bid_button = (ImageView)inflatedView.findViewById(R.id.send_bid);
-
+                // Number of likes in the popup
                 TextView promotesText = (TextView)inflatedView.findViewById(R.id.pop_up_no_of_promotes);
                 promotesText.setText(task.getPromotes().length() + " " + ApplicationConstants.PROMOTES);
                 popWindow.showAtLocation(inflatedView, Gravity.CENTER, 0, 80);

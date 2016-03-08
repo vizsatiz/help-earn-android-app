@@ -54,7 +54,8 @@ public class WebServiceAuthAdpt {
         this.requestQueue = Volley.newRequestQueue(context);
     }
 
-    public void updateAndAuthenticateUser(final String username,final String password,final String facebook,final String name){
+    public void updateAndAuthenticateUser(final String username,final String password,final String facebook,
+                                          final String name){
         Log.d(TAG,"Going for authenticate and update call");
         String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_AUTHENTICATE;
         Map<String,String> params = new HashMap<>();
@@ -62,7 +63,8 @@ public class WebServiceAuthAdpt {
         params.put(ApplicationConstants.PASSWORD,password);
         params.put(ApplicationConstants.NAME,name);
         params.put(ApplicationConstants.FACEBOOK,facebook);
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,new JSONObject(params), new Response.Listener<JSONObject>(){
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url,
+                new JSONObject(params), new Response.Listener<JSONObject>(){
             @Override
             public void onResponse(JSONObject response) {
                 Log.d(TAG, "Authencation Success !!");
@@ -148,4 +150,6 @@ public class WebServiceAuthAdpt {
             isReceiverRegistered = true;
         }
     }
+
+
 }

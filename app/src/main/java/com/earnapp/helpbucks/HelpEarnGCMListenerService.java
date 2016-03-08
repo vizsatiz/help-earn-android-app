@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.helpbucks.R;
 import com.earnapp.helpbucks.SocialLoginActivity;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -23,10 +24,9 @@ public class HelpEarnGCMListenerService  extends GcmListenerService{
 
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        String message = data.getString(ApplicationConstants.ID);
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
-
 
         // [START_EXCLUDE]
         /**

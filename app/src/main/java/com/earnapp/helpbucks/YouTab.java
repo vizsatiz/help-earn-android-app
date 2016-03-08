@@ -132,6 +132,7 @@ public class YouTab extends Fragment {
                     User bidderObj = new User(bidderJson.getString(ApplicationConstants.ID),
                             bidderJson.getString(ApplicationConstants.NAME),
                             bidderJson.getString(ApplicationConstants.USERNAME), bidderJson.getString(ApplicationConstants.FACEBOOK));
+                    bidderObj.setGMCToken(bidderJson.getString(ApplicationConstants.GCM_TOKEN));
                     BidItem bidObj = new BidItem(bidJson.getString(ApplicationConstants.ID),
                             bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj, bidJson.getString(ApplicationConstants.CREATED_AT),
                             bidJson.getString(ApplicationConstants.UPDATED_AT));
