@@ -1,6 +1,7 @@
 package com.earnapp.helpbucks;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.earnapp.chat.ChatActivity;
 import com.earnapp.constants.ApplicationConstants;
 
 import java.util.ArrayList;
@@ -54,8 +56,12 @@ public class TaskListActivity extends AppCompatActivity {
         adapter.addFragment(new TaskTabs(), "Tasks");
         adapter.addFragment(new CreateTaskTab(), "Create a Task");
         adapter.addFragment(new YouTab(), "You");
+        adapter.addFragment(new AcceptedBidsFragment(), "Chats");
         adapter.addFragment(new HistoryTab(), "History");
         viewPager.setAdapter(adapter);
+
+       // Intent newIntent = new Intent(this, ChatActivity.class);
+        //this.startActivity(newIntent);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

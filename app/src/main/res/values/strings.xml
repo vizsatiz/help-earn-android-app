@@ -12,4 +12,5 @@
     <string name="Bid">Bid</string>
     <string name="Location">Location</string>
     <string name="Comment">Comment</string>
+    <string name="title_activity_chat">ChatActivity</string>
 </resources>
