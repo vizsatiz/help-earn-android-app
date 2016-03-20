@@ -84,8 +84,15 @@ public class TaskTabs extends Fragment {
                             bidderJson.getString(ApplicationConstants.NAME),
                             bidderJson.getString(ApplicationConstants.USERNAME), bidderJson.getString(ApplicationConstants.FACEBOOK));
                     bidderObj.setGMCToken(bidderJson.getString(ApplicationConstants.GCM_TOKEN));
+                    Log.d("-------B---->",bidJson.toString());
+                    boolean bidstatus = false;
+                    try{
+                        bidstatus = bidJson.getBoolean(ApplicationConstants.BID_STATUS);
+                    }catch (Exception e){
+                        //e.printStackTrace();
+                    }
                     BidItem bidObj = new BidItem(bidJson.getString(ApplicationConstants.ID),
-                            bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj,bidJson.getString(ApplicationConstants.CREATED_AT),
+                            bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj,bidstatus,bidJson.getString(ApplicationConstants.CREATED_AT),
                             bidJson.getString(ApplicationConstants.UPDATED_AT));
                     item.getBids().add(bidObj);
                 }
@@ -111,7 +118,7 @@ public class TaskTabs extends Fragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Button clicked ! Going to create task !!");
+                Log.d(TAG, "Button clicked ! Going to create task tab!!");
                 ((TaskListActivity) getActivity()).getViewPager().setCurrentItem(1);
             }
         });

@@ -1,8 +1,10 @@
 package com.earnapp.adapters;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +23,13 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
 import com.earnapp.constants.ApplicationConstants;
 import com.earnapp.helpbucks.R;
+import com.earnapp.helpbucks.TaskListActivity;
 import com.earnapp.models.BidItem;
+import com.earnapp.models.TaskItem;
 import com.earnapp.models.User;
 import com.earnapp.volley.VolleyFeedController;
 import com.earnapp.webservice.WebServiceAuthAdpt;
+import com.google.android.gms.gcm.Task;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,16 +45,18 @@ import java.util.Map;
 public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHolder> {
 
     private Activity activity;
+    private TaskItem task;
     private List<BidItem> bidItems;
     private boolean renderButton;
     private String TAG = "BidListAdapter";
     ImageLoader imageLoader = VolleyFeedController.getInstance().getImageLoader();
 
 
-    public BidListAdapter(Activity activity, ArrayList<BidItem> bidItems,boolean renderButton) {
+    public BidListAdapter(Activity activity, ArrayList<BidItem> bidItems,boolean renderButton,TaskItem task) {
         this.activity = activity;
         this.bidItems = bidItems;
         this.renderButton = renderButton;
+        this.task = task;
     }
 
     @Override
@@ -62,7 +69,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         final BidItem bid = bidItems.get(position);
@@ -73,6 +80,13 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
                 System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
         holder.bidTime.setText(timeAgo);
         holder.bidAmount.setText("₹ " + bid.getAmount());
+        Log.d(TAG,"Going to get the bid status and changing the button UI >> "+ bid.isBidStatus());
+        if(bid.isBidStatus()){
+            Log.d(TAG,"Button UI Changed >> "+ bid.isBidStatus());
+            holder.acceptButton.setText("Bid Accepted");
+            holder.acceptButton.setTextColor(Color.GREEN);
+            holder.acceptButton.setEnabled(false);
+        }
         if(!renderButton){
             holder.acceptButton.setVisibility(View.GONE);
             holder.comment_line.setVisibility(View.GONE);
@@ -80,7 +94,7 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
             holder.acceptButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    acceptBidLogic(bid);
+                    acceptBidLogic(bid, holder.acceptButton);
                 }
             });
         }
@@ -129,14 +143,20 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
         notifyItemRemoved(position);
     }
 
-    public void acceptBidLogic(final BidItem bid){
+    public void acceptBidLogic(final BidItem bid, final Button acceptButton){
         String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_POST_BID + "/" + bid.getId();
         Map<String,String> params = new HashMap<>();
+        params.put("accepter",WebServiceAuthAdpt.user.getId());
+        params.put("chatter",bid.getBidder().getId());
+        params.put("task",task.getId());
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    acceptButton.setText("Bid Accepted");
+                    acceptButton.setTextColor(Color.GREEN);
+                    acceptButton.setEnabled(false);
                     sendNotificationToBidder(bid.getBidder());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -168,13 +188,16 @@ public class BidListAdapter extends RecyclerView.Adapter<BidListAdapter.ViewHold
         JSONObject data = new JSONObject();
         data.put(ApplicationConstants.ID,bidder.getId());
         data.put(ApplicationConstants.NAME,bidder.getName());
-        params.put("data",data);
+        params.put("data", data);
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url,params,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(activity,"Bidder will be notified",
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,"Added to your chats contacts",
+                                    Toast.LENGTH_LONG).show();
+                        ((TaskListActivity)activity).getViewPager().setCurrentItem(3);
                     }
                 }, new Response.ErrorListener() {
             @Override

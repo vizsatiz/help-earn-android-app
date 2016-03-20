@@ -13,17 +13,19 @@ public class BidItem {
 
     private String id;
     private int amount;
+    private boolean bidStatus;
     private User bidder;
 
     private Date createdAt;
     private Date updatedAt;
 
 
-    public BidItem(String id,int amount,User user,String createdAt,String updatedAt){
+    public BidItem(String id,int amount,User user,boolean bidStatus,String createdAt,String updatedAt){
         SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
         this.id = id;
         this.amount = amount;
         this.bidder = user;
+        this.bidStatus = bidStatus;
         try {
             this.createdAt = dateFormat.parse(createdAt);
             this.updatedAt = dateFormat.parse(updatedAt);
@@ -31,6 +33,14 @@ public class BidItem {
             e.printStackTrace();
         }
 
+    }
+
+    public boolean isBidStatus() {
+        return bidStatus;
+    }
+
+    public void setBidStatus(boolean bidStatus) {
+        this.bidStatus = bidStatus;
     }
 
     public Date getCreatedAt() {

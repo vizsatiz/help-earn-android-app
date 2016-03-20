@@ -236,7 +236,7 @@ public class TaskListAdapter extends BaseAdapter {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity);
                 bidListView.setLayoutManager(mLayoutManager);
 
-                bidAdapter = new BidListAdapter(activity,item.getBids(),false);
+                bidAdapter = new BidListAdapter(activity,item.getBids(),false,item);
                 bidListView.setAdapter(bidAdapter);
 
                 setCloseButtonLogic(inflatedView, popWindow);
@@ -285,9 +285,16 @@ public class TaskListAdapter extends BaseAdapter {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            Log.d("------------>",response.toString());
+                            boolean bidstatus = false;
+                            try{
+                                bidstatus = response.getBoolean(ApplicationConstants.BID_STATUS);
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                             try {
                                 BidItem bid = new BidItem(response.getString(ApplicationConstants.ID),
-                                        response.getInt(ApplicationConstants.AMOUNT),WebServiceAuthAdpt.user,
+                                        response.getInt(ApplicationConstants.AMOUNT),WebServiceAuthAdpt.user,bidstatus,
                                         response.getString(ApplicationConstants.CREATED_AT),response.getString(ApplicationConstants.UPDATED_AT));
                                 bidAdapter.add(bid);
                             } catch (JSONException e) {

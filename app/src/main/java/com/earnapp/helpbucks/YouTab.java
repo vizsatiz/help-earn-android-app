@@ -133,8 +133,14 @@ public class YouTab extends Fragment {
                             bidderJson.getString(ApplicationConstants.NAME),
                             bidderJson.getString(ApplicationConstants.USERNAME), bidderJson.getString(ApplicationConstants.FACEBOOK));
                     bidderObj.setGMCToken(bidderJson.getString(ApplicationConstants.GCM_TOKEN));
+                    boolean bidstatus = false;
+                    try {
+                        bidstatus = bidJson.getBoolean(ApplicationConstants.BID_STATUS);
+                    }catch (Exception e){
+                        //e.printStackTrace();
+                    }
                     BidItem bidObj = new BidItem(bidJson.getString(ApplicationConstants.ID),
-                            bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj, bidJson.getString(ApplicationConstants.CREATED_AT),
+                            bidJson.getInt(ApplicationConstants.AMOUNT), bidderObj, bidstatus,bidJson.getString(ApplicationConstants.CREATED_AT),
                             bidJson.getString(ApplicationConstants.UPDATED_AT));
                     item.getBids().add(bidObj);
                 }

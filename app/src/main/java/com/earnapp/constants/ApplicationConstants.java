@@ -37,6 +37,7 @@ public interface ApplicationConstants {
     public static final String DB_AUTHENTICATE  = "/authenticate";
     public static final String DB_GET_USER_BY_USERNAME  = "/register/user/";
     public static final String DB_UPDATED_GCM_TOKEN  = "/api/v1/users/";
+    public static final String DB_GET_CHAT  = "/api/v1/chats/";
 
 
     // URL params
@@ -72,6 +73,7 @@ public interface ApplicationConstants {
     // Bids
     public static final String AMOUNT = "amount";
     public static final String BIDDER = "bidder";
+    public static final String BID_STATUS = "bidstatus";
 
     //Auth
     public static final String TOKEN = "token";

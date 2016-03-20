@@ -6,7 +6,6 @@ import android.graphics.Point;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -94,7 +93,7 @@ public class YouTaskList extends RecyclerView.Adapter<YouTaskList.ViewHolder> {
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(activity);
                 bidListView.setLayoutManager(mLayoutManager);
 
-                bidAdapter = new BidListAdapter(activity,task.getBids(),true);
+                bidAdapter = new BidListAdapter(activity,task.getBids(),true,task);
                 bidListView.setAdapter(bidAdapter);
 
                 setCloseButtonLogic(inflatedView, popWindow);
