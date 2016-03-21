@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.earnapp.helpbucks.R;
-import com.earnapp.models.BidItem;
 import com.earnapp.models.ChatItem;
 import com.earnapp.volley.VolleyFeedController;
 
@@ -54,10 +54,10 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ChatListAdapter.ViewHolder holder, int position) {
         final ChatItem item = chatItems.get(position);
-        Log.d("--------->","Getting the Chat Item -->"+chatItems.size());
         holder.txtChatterName.setText(item.getChatFriend().getName());
         holder.profilePic.setImageUrl(item.getChatFriend().getProfilePic(), imageLoader);
         holder.chat_subject.setText(item.getRelationalTask().getTaskTitle());
+
     }
 
     @Override
@@ -73,14 +73,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
         public TextView txtChatterName;
         public NetworkImageView profilePic;
         public TextView chat_subject;
-        private Button chatButton;
+        private LinearLayout chatButton;
 
         public ViewHolder(View v) {
             super(v);
             txtChatterName = (TextView) v.findViewById(R.id.chatter_name);
             profilePic = (NetworkImageView) v.findViewById(R.id.chat_profile_pic);
             chat_subject = (TextView) v.findViewById(R.id.chat_subject);
-            chatButton = (Button) v.findViewById(R.id.start_chat);
+            chatButton = (LinearLayout) v.findViewById(R.id.start_chat);
         }
     }
 
@@ -90,11 +90,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ViewHo
     }
 
     public void add(ChatItem chatItem) {
-        Log.d("90-->0....>>", "adding chat >" + chatItems.size());
-        Log.d("90-->0....>>", "adding chat >" + chatItem.toString());
         chatItems.add(chatItem);
         notifyItemInserted(chatItems.size() - 1);
-        Log.d("90-->0....>>", "adding chat >" + chatItems.size());
     }
 
     public void remove(int position){

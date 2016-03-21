@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Do did not create any tasks"
+        android:text="No active chats exist"
         android:textSize="10dp"
         android:id="@+id/no_task"
         android:gravity="center"

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
+    android:background="#ffffff"
     android:padding="1dp"
     android:orientation="vertical">
 
@@ -19,17 +19,18 @@
         android:paddingRight="1dp"
         android:paddingTop="2dp">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingRight="@dimen/feed_item_padding_left_right"
-            android:paddingLeft="1dp">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/feed_item_padding_left_right"
+        android:paddingLeft="1dp">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/chat_profile_pic"
                 android:layout_width="@dimen/feed_item_profile_pic"
                 android:layout_height="@dimen/feed_item_profile_pic"
+                android:paddingLeft="1dp"
                 android:scaleType="fitCenter">
             </com.android.volley.toolbox.NetworkImageView>
 
@@ -53,10 +54,9 @@
             android:id="@+id/chat_subject"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:gravity="center"
-            android:fontFamily="sans-serif-thin"
-            android:textStyle="bold"/>
+            android:fontFamily="sans-serif-thin"/>
 
         <View
             android:layout_width="fill_parent"
@@ -68,14 +68,52 @@
             android:layout_marginTop="0.5dp"
             android:background="#c0c0c0" />
 
-        <Button
+        <LinearLayout
+            android:id="@+id/LinearLayout007"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:id="@+id/start_chat"
-            android:text="Start Chat"
-            android:textAllCaps="false"
-            android:paddingTop="1dp"
-            android:background="#ffffff"/>
+            android:layout_height="30dp">
 
+            <LinearLayout
+                android:id="@+id/start_chat"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="0dp">
+                <TextView
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0000"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:paddingTop="3dp"
+                    android:text="Start Chat"
+                    android:textAllCaps="false"
+                    android:textColor="#B6B3B2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/bid_button"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:padding="0dp">
+                <TextView
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0000"
+                    android:clickable="false"
+                    android:gravity="center"
+                    android:paddingTop="3dp"
+                    android:text="Remove"
+                    android:textAllCaps="false"
+                    android:textColor="#B6B3B2" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

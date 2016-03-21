@@ -49,7 +49,8 @@ public class AcceptedBidsFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         final View fragmentView = inflater.inflate(R.layout.fragment_accepted_chats, container, false);
 
         RecyclerView recyclerView = (RecyclerView) fragmentView.findViewById(R.id.chats_object_list);
@@ -65,8 +66,10 @@ public class AcceptedBidsFragment extends Fragment {
     }
 
     public void getAcceptedBidsAndBidderAndMapItToTheListView(View fragmentView){
-        String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_CHAT + WebServiceAuthAdpt.user.getId();
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, new Response.Listener<JSONArray>() {
+        String url = ApplicationConstants.DB_BASE_URL + ApplicationConstants.DB_GET_CHAT +
+                WebServiceAuthAdpt.user.getId();
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url,
+                new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 parseChatsResponseAndBindToUI(response);
@@ -101,7 +104,6 @@ public class AcceptedBidsFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        Log.d("------>", "Setting chat Item" + chatItems.size());
         chatObjectListAdpt.setChatItems(chatItems);
         chatObjectListAdpt.notifyDataSetChanged();
     }
