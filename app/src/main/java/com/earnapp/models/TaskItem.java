@@ -8,7 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by vizsatiz on 08-02-2016.
@@ -19,7 +18,6 @@ public class TaskItem {
     private String taskTitle;
     private String taskDescription;
     private int reward;
-    private String location;
     private JSONArray promotes;
 
     private User taskOwner;
@@ -28,13 +26,37 @@ public class TaskItem {
     private Date updatedAt;
     private Date expiry;
 
-    private ArrayList<Bid> bids;
+    private ArrayList<BidItem> bids;
 
-    public ArrayList<Bid> getBids() {
+    public TaskItem(){
+
+    }
+
+    public TaskItem(User taskOwner, String taskTitle, String taskDescription, int reward, JSONArray promotes,String id, String expiry, String createdAt, String updatedAt,
+                    ArrayList<BidItem> bids) {
+        this.taskOwner = taskOwner;
+        this.taskTitle = taskTitle;
+        this.taskDescription = taskDescription;
+        this.reward = reward;
+        this.promotes = promotes;
+        this.id = id;
+        this.bids = bids;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
+        try {
+            this.createdAt = dateFormat.parse(createdAt);
+            this.updatedAt = dateFormat.parse(updatedAt);
+            this.expiry = dateFormat.parse(expiry);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public ArrayList<BidItem> getBids() {
         return bids;
     }
 
-    public void setBids(ArrayList<Bid> bids) {
+    public void setBids(ArrayList<BidItem> bids) {
         this.bids = bids;
     }
 
@@ -45,14 +67,6 @@ public class TaskItem {
     public void setExpiry(String expiry) throws ParseException{
         SimpleDateFormat dateFormat = new SimpleDateFormat(ApplicationConstants.DATE_TIME_FORMAT);
         this.expiry = dateFormat.parse(expiry);
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public User getTaskOwner() {

@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/feed_bg"
+    android:background="#ffffff"
+    android:padding="1dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,19 +15,22 @@
         android:background="@drawable/bg_parent_rounded_corner"
         android:orientation="vertical"
         android:paddingBottom="@dimen/feed_item_padding_bottom"
-        android:paddingTop="@dimen/feed_item_padding_top">
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
+        android:paddingTop="2dp">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="@dimen/feed_item_padding_left_right"
-            android:paddingRight="@dimen/feed_item_padding_left_right">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/feed_item_padding_left_right"
+        android:paddingLeft="1dp">
 
             <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/profilePic"
+                android:id="@+id/chat_profile_pic"
                 android:layout_width="@dimen/feed_item_profile_pic"
                 android:layout_height="@dimen/feed_item_profile_pic"
+                android:paddingLeft="1dp"
                 android:scaleType="fitCenter">
             </com.android.volley.toolbox.NetworkImageView>
 
@@ -37,75 +41,27 @@
                 android:paddingLeft="@dimen/feed_item_profile_info_padd">
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/chatter_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/feed_item_profile_name"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/timestamp"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/timestamp"
-                    android:textSize="@dimen/feed_item_timestamp" />
             </LinearLayout>
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtTitle"
+            android:id="@+id/chat_subject"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
-            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-            android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="@dimen/feed_item_status_pad_top"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtDescription"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:paddingBottom="5dp"
-            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-            android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="@dimen/feed_item_status_pad_top"
-            android:textStyle="italic" />
-
-        <ImageView
-            android:id="@+id/ruppeeSymbol"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
-            android:paddingTop="0.1dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/rupee" />
-
-        <TextView
-            android:id="@+id/rewardtxt"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
+            android:textSize="15dp"
             android:gravity="center"
-            android:paddingTop="0dp"
-            android:textSize="20dp"/>
-
-
-        <TextView
-            android:id="@+id/txtPromotes"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-thin"
-            android:gravity="left"
-            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-            android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="8dp"
-            android:textSize="13dp" />
+            android:fontFamily="sans-serif-thin"/>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
+            android:id="@+id/straight_line"
             android:layout_marginBottom="0.5dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
@@ -118,33 +74,22 @@
             android:layout_height="30dp">
 
             <LinearLayout
-                android:id="@+id/promote_button"
+                android:id="@+id/start_chat"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:padding="0dp">
-
-                <ImageView
-                    android:id="@+id/promote_image"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#0000"
-                    android:clickable="false"
-                    android:paddingLeft="2dp"
-                    android:src="@drawable/ic_single_heart_uncolored" />
-
                 <TextView
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#0000"
                     android:clickable="false"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingTop="3dp"
-                    android:text="Promote"
+                    android:text="Start Chat"
                     android:textAllCaps="false"
                     android:textColor="#B6B3B2" />
             </LinearLayout>
@@ -157,24 +102,15 @@
                 android:layout_weight="1"
                 android:orientation="horizontal"
                 android:padding="0dp">
-
-                <ImageView
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#0000"
-                    android:clickable="false"
-                    android:src="@drawable/ic_indian_rupee_slim" />
-
                 <TextView
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#0000"
                     android:clickable="false"
-                    android:gravity="left"
+                    android:gravity="center"
                     android:paddingTop="3dp"
-                    android:text="Bid"
+                    android:text="Remove"
                     android:textAllCaps="false"
                     android:textColor="#B6B3B2" />
             </LinearLayout>

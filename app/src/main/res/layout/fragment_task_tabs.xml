@@ -6,10 +6,12 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/TaskList"
-        android:textSize="40dp"
+        android:layout_gravity="center_vertical"
+        android:text="Can't find any tasks"
+        android:textSize="10dp"
+        android:gravity="center"
         android:textStyle="bold"
         android:layout_centerInParent="true"/>
 

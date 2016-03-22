@@ -26,6 +26,7 @@ public class SocialLoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private AccessTokenTracker mAccessTokenTracker;
     private ProfileTracker mProfileTracker;
+    private WebServiceAuthAdpt authAdpt;
     private String TAG = ApplicationConstants.TAG_LOGIN;
 
     final Context context = this;
@@ -113,7 +114,7 @@ public class SocialLoginActivity extends AppCompatActivity {
                         profile.getFirstName()+" "+profile.getLastName());
             }else{
                 Log.d(TAG,"User opens the App !!! Going to web service login !!");
-                WebServiceAuthAdpt authAdpt = new WebServiceAuthAdpt(this);
+                authAdpt = new WebServiceAuthAdpt(this);
                 authAdpt.updateAndAuthenticateUser(profile.getId(),"password",AccessToken.getCurrentAccessToken().getToken()
                         ,profile.getFirstName()+" "+profile.getLastName());
             }
@@ -126,7 +127,11 @@ public class SocialLoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Logs 'install' and 'app activate' App Events.
+        // Logs 'install' and 'app activate' App Events.'
+        //if(authAdpt == null){
+          //  updateWithTokenAndProfile(Profile.getCurrentProfile(),false);
+        //}
+        //authAdpt.registerReceiver();
         AppEventsLogger.activateApp(this);
     }
 
@@ -134,6 +139,8 @@ public class SocialLoginActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         // Logs 'app deactivate' App Event.
+       // LocalBroadcastManager.getInstance(this).unregisterReceiver(authAdpt.mRegistrationBroadcastReceiver);
+        //authAdpt.isReceiverRegistered = false;
         AppEventsLogger.deactivateApp(this);
     }
 

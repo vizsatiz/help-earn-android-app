@@ -5,6 +5,10 @@ package com.earnapp.constants;
  */
 public interface ApplicationConstants {
 
+
+    //Tokens
+    public static final String GOOGLE_MESSEGING_TOKEN  = "key=AIzaSyCe6dwSPR-AA5cKXcp7WXvkYxqyrUVjGgo";
+
     //Logs
     public static final String TAG_LOGIN  = "Login";
     public static final String TAG_DB_AUTH  = "WebAuth";
@@ -18,7 +22,8 @@ public interface ApplicationConstants {
 
     // Base URLs
     public static final String FB_GRAPH_BASE_URL = "https://graph.facebook.com";
-    public static final String DB_BASE_URL = "http://10.10.17.34:3000";
+    public static final String GOOGLE_MESSAGING_UPLOAD = "https://gcm-http.googleapis.com/gcm/send";
+    public static final String DB_BASE_URL = "http://192.168.56.1:3000";
 
     // URL paths
     //FB
@@ -26,13 +31,18 @@ public interface ApplicationConstants {
     //Backend
     public static final String DB_CREATE_USER_URL = "/register/user";
     public static final String DB_GET_TASK  = "/api/v1/task";
+    public static final String DB_POST_BID  = "/api/v1/bids";
     public static final String DB_POST_TASK  = "/api/v1/task";
+    public static final String DB_GET_MY_TASK  = "/api/v2/task";
     public static final String DB_AUTHENTICATE  = "/authenticate";
     public static final String DB_GET_USER_BY_USERNAME  = "/register/user/";
+    public static final String DB_UPDATED_GCM_TOKEN  = "/api/v1/users/";
+    public static final String DB_GET_CHAT  = "/api/v1/chats/";
 
 
     // URL params
     public static final String ACCESS_TOKEN = "access_token";
+    public static final String GCM_TOKEN = "gmctoken";
 
     // General
     public static final String ID = "_id";
@@ -63,6 +73,7 @@ public interface ApplicationConstants {
     // Bids
     public static final String AMOUNT = "amount";
     public static final String BIDDER = "bidder";
+    public static final String BID_STATUS = "bidstatus";
 
     //Auth
     public static final String TOKEN = "token";

@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.earnapp.helpbucks.profileTab">
+    tools:context=".AcceptedBidsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:text="Do did not create any tasks"
+        android:text="No active chats exist"
         android:textSize="10dp"
         android:id="@+id/no_task"
         android:gravity="center"
@@ -17,7 +16,7 @@
         android:layout_centerInParent="true"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/you_bid_list"
+        android:id="@+id/chats_object_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="2dp"

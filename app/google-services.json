@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_id": "helpearn1992",
+    "project_number": "259365225564",
+    "name": "helpearn"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259365225564:android:41a3128e1db3a90c",
+        "client_id": "android:com.earnapp.helpbucks",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.earnapp.helpbucks",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
